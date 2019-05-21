@@ -15,14 +15,19 @@ export default class PhonesCatalog extends Component {
           const phoneId = phoneEl.dataset.phoneId;
         this.emit("phone-selected", phoneId);
         });
+
+        this.on('click', '[data-element="add-to-cart"]', (event) => {
+            const phoneEl = event.target.closest('[data-element="phone-element"]');
+            const phoneId = phoneEl.dataset.phoneId;
+            this.emit('add-phone', phoneId);
+        });
     }
     
     _render() {
         this._element.innerHTML = `
         <ul class="phones">
             ${this._phones
-              .map(
-                phone => `
+              .map(phone => `
                     <li
                     class="thumbnail"
                     data-element="phone-element"
@@ -33,13 +38,14 @@ export default class PhonesCatalog extends Component {
                             class="thumb"
                             data-element="details-link"
                         >
-                        <img alt="${phone.name}™ with Wi-Fi" src="${
-                  phone.imageUrl
-                }">
+                        <img alt="${phone.name}™ with Wi-Fi" src="${phone.imageUrl}">
                         </a>
 
                         <div class="phones__btn-buy-wrapper">
-                        <a class="btn btn-success">
+                        <a 
+                        class="btn btn-success"
+                        data-element="add-to-cart"
+                        >
                             Add
                         </a>
                         </div>
