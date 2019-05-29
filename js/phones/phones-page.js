@@ -24,9 +24,11 @@ export default class PhonesPage {
 
         this._catalog.subscribe("phone-selected", id => {
             console.log("Selected: ", id);
+            this._filter._orderField.setAttribute('disabled', 'disabled');
+            this._filter._queryField.setAttribute('disabled', 'disabled');
             PhonesService.getById(id).then((phoneDetails) => {
                 this._catalog.hide();
-                this._viewer.show(phoneDetails);
+                this._viewer.show(phoneDetails);                
             })
         });
 
@@ -43,6 +45,8 @@ export default class PhonesPage {
         this._viewer.subscribe('back', () => {
             this._showPhones();
             this._viewer.hide();
+            this._filter._orderField.removeAttribute('disabled');
+            this._filter._queryField.removeAttribute('disabled');
         })
 
         this._viewer.subscribe('add-phone', (phoneId) => {
